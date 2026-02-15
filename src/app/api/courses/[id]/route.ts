@@ -1,13 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
+
     const course = await prisma.course.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!course) {
@@ -19,9 +21,8 @@ export async function GET(
 
     return NextResponse.json(course);
   } catch (error) {
-    console.error("COURSE DETAIL ERROR:", error);
     return NextResponse.json(
-      { error: "Failed to fetch course" },
+      { error: "Something went wrong" },
       { status: 500 }
     );
   }
