@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  name      String?
+  email     String   @unique
+  password  String
+
+  role      String   @default("student") // student | admin
+
+  // Enrollment Control
+  approved  Boolean  @default(false)
+  batch     String?  // Online | Offline
+
+  enrolledAt DateTime?  // When admin approves
+  expiresAt  DateTime?  // Access end date
+
+  // Optional future features
+  status    String   @default("pending") // pending | active | expired | revoked
+
+  createdAt DateTime @default(now())
+
+  enrollments     CourseEnrollment[] @relation("UserEnrollments")
+  videoProgresses VideoProgress[]
+}
+
+model Course {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  price       String
+  thumbnail   String?
+  type        String   @default("online") // 🔥 ADD THIS
+  whatsapp    String?  // 🔥 ADD THIS (for offline contact)
+  videos      Video[]            @relation("CourseVideos")
+  enrollments CourseEnrollment[] @relation("CourseEnrollments")
+}
+
+model Lead {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  phone     String
+  course    String
+  type      String
+  createdAt DateTime @default(now())
+}
+model Video {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  url   String
+
+  courseId        String          @db.ObjectId
+  course          Course          @relation("CourseVideos", fields: [courseId], references: [id], onDelete: Cascade)
+  videoProgresses VideoProgress[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+}
+
+model CourseEnrollment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId   String @db.ObjectId
+  courseId String @db.ObjectId
+
+  user      User     @relation("UserEnrollments", fields: [userId], references: [id])
+  course    Course   @relation("CourseEnrollments", fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+}
+
+model VideoProgress {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  videoId   String  @db.ObjectId
+  completed Boolean @default(false)
+
+  user  User  @relation(fields: [userId], references: [id])
+  video Video @relation(fields: [videoId], references: [id])
+
+  @@unique([userId, videoId])
+}
+
+model Certificate {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  imageUrl  String // Cloudinary / ImageKit / public URL
+  issuedBy  String // e.g. Funded Firm name
+  createdAt DateTime @default(now())
+}
+
+
