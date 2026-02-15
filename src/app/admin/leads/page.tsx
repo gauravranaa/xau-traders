@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"]; // ✅ your email
+const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"]; // ✅ Your admin email
 
 export default async function LeadsPage() {
   const session = await getServerSession(authOptions);
@@ -42,7 +42,9 @@ export default async function LeadsPage() {
             <p><strong>Name:</strong> {lead.name}</p>
             <p><strong>Email:</strong> {lead.email}</p>
             <p><strong>Phone:</strong> {lead.phone}</p>
+            <p><strong>Course:</strong> {lead.course}</p>
             <p><strong>Type:</strong> {lead.type}</p>
+
             <p className="text-sm text-gray-400 mt-2">
               {new Date(lead.createdAt).toLocaleString()}
             </p>
