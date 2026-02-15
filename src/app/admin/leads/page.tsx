@@ -2,24 +2,23 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Lead } from "@prisma/client"; // ✅ import type
 
-const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"]; // ✅ Your admin email
+const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"];
 
 export default async function LeadsPage() {
   const session = await getServerSession(authOptions);
 
-  // 🔐 Not logged in
   if (!session) {
     redirect("/auth/signin");
   }
 
-  // 🔐 Not admin
   if (!ADMIN_EMAILS.includes(session.user?.email || "")) {
     redirect("/dashboard");
   }
 
-  // ✅ Fetch leads
-  const leads = await prisma.lead.findMany({
+  // ✅ Explicit typing
+  const leads: Lead[] = await prisma.lead.findMany({
     orderBy: { createdAt: "desc" },
   });
 
@@ -34,7 +33,7 @@ export default async function LeadsPage() {
       )}
 
       <div className="space-y-6">
-        {leads.map((lead) => (
+        {leads.map((lead: Lead) => (
           <div
             key={lead.id}
             className="border border-gray-800 rounded-xl p-6 bg-[#121826]"
