@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Lead } from "@prisma/client"; // ✅ import type
 
 const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"];
 
@@ -17,8 +16,8 @@ export default async function LeadsPage() {
     redirect("/dashboard");
   }
 
-  // ✅ Explicit typing
-  const leads: Lead[] = await prisma.lead.findMany({
+  // ✅ Let Prisma infer type automatically
+  const leads = await prisma.lead.findMany({
     orderBy: { createdAt: "desc" },
   });
 
@@ -33,7 +32,7 @@ export default async function LeadsPage() {
       )}
 
       <div className="space-y-6">
-        {leads.map((lead: Lead) => (
+        {leads.map((lead) => (
           <div
             key={lead.id}
             className="border border-gray-800 rounded-xl p-6 bg-[#121826]"
