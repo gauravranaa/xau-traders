@@ -9,28 +9,33 @@ export default function AdminCourseForm() {
     e.preventDefault();
     setLoading(true);
 
-    const form = e.currentTarget;
+    const formData = new FormData(e.currentTarget);
+
     const data = {
-      title: form.title.value,
-      description: form.description.value,
-      price: form.price.value,
-      thumbnail: form.thumbnail.value,
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      price: formData.get("price") as string,
+      thumbnail: formData.get("thumbnail") as string,
     };
 
-    const res = await fetch("/api/admin/course", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    try {
+      const res = await fetch("/api/admin/course", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        alert("✅ Course created");
+        e.currentTarget.reset();
+      } else {
+        alert("❌ Failed to create course");
+      }
+    } catch (error) {
+      alert("❌ Something went wrong");
+    }
 
     setLoading(false);
-
-    if (res.ok) {
-      alert("✅ Course created");
-      form.reset();
-    } else {
-      alert("❌ Failed to create course");
-    }
   }
 
   return (
