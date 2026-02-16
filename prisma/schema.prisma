@@ -83,6 +83,14 @@ model CourseEnrollment {
 
   @@unique([userId, courseId])
 }
+model OfflineEnrollment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  phone     String
+  createdAt DateTime @default(now())
+}
+
 
 model VideoProgress {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId

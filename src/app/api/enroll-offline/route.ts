@@ -8,15 +8,14 @@ export async function POST(req: Request) {
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
 
-  await prisma.courseEnrollment.create({
+  await prisma.offlineEnrollment.create({
+  data: {
+    name,
+    email,
+    phone,
+  },
+});
 
-    data: {
-      name,
-      email,
-      phone,
-      batch: "OFFLINE",
-    },
-  });
 
   return NextResponse.redirect("http://localhost:3000");
 }
