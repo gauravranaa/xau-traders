@@ -4,11 +4,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(req: Request) {
+  // ✅ Prevent build-time crash
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json(
+      { error: "Stripe not configured" },
+      { status: 500 }
+    );
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -21,7 +27,10 @@ export async function POST(req: Request) {
   });
 
   if (!course) {
-    return NextResponse.json({ error: "Course not found" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Course not found" },
+      { status: 404 }
+    );
   }
 
   const checkoutSession = await stripe.checkout.sessions.create({
@@ -36,7 +45,7 @@ export async function POST(req: Request) {
             name: course.title,
             description: course.description,
           },
-          unit_amount: Number(course.price) * 100, // e.g. 49 → 4900
+          unit_amount: Number(course.price) * 100,
         },
         quantity: 1,
       },
