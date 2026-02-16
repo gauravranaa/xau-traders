@@ -18,9 +18,11 @@ export async function POST(req: NextRequest) {
   data: {
     name,
     email,
+    phone,      // ✅ REQUIRED
     batch: "ONLINE",
   },
 });
+
 
 
     return NextResponse.json({ success: true, enrollment });
