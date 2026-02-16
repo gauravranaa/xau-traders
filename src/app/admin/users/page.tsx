@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { User } from "@prisma/client"; // ✅ import type
+import { User } from "@prisma/client";
 
 export default async function AdminUsersPage() {
   const users: User[] = await prisma.user.findMany({
@@ -13,7 +13,7 @@ export default async function AdminUsersPage() {
       </h1>
 
       <div className="space-y-6">
-        {users.map((user: User) => (   {/* ✅ typed here */}
+        {users.map((user: User) => (
           <div
             key={user.id}
             className="bg-[#121826] p-6 rounded-xl border border-gray-800"
