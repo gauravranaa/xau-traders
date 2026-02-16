@@ -107,13 +107,14 @@ model VideoProgress {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   userId    String  @db.ObjectId
   videoId   String  @db.ObjectId
-  completed Boolean @default(false)
+  watched   Boolean @default(false)
 
   user  User  @relation(fields: [userId], references: [id])
   video Video @relation(fields: [videoId], references: [id])
 
   @@unique([userId, videoId])
 }
+
 
 model Certificate {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
