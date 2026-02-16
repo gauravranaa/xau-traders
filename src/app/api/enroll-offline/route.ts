@@ -13,8 +13,10 @@ export async function POST(req: Request) {
     name,
     email,
     phone,
+    batch: "OFFLINE",
   },
 });
+
 
 
   return NextResponse.redirect("http://localhost:3000");
