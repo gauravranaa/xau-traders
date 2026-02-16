@@ -88,12 +88,15 @@ model OfflineEnrollment {
   name      String
   email     String
   phone     String
+  batch     String
   createdAt DateTime @default(now())
 }
 model OnlineEnrollment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String
+  batch     String
+  phone     String
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
 }
