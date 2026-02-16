@@ -1,10 +1,19 @@
 import prisma from "@/lib/prisma";
 
+type CertificateType = {
+  id: string;
+  title: string;
+  imageUrl: string;
+  issuedBy: string;
+  createdAt: Date;
+};
+
 export default async function CertificatesPage() {
-  const certificates = await prisma.certificate.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 3,
-  });
+  const certificates: CertificateType[] =
+    await prisma.certificate.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    });
 
   return (
     <div className="min-h-screen bg-black text-white px-10 py-20">
@@ -14,7 +23,7 @@ export default async function CertificatesPage() {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {certificates.map((cert) => (
+        {certificates.map((cert: CertificateType) => (
           <div
             key={cert.id}
             className="bg-[#121826] border border-gray-800 rounded-2xl overflow-hidden 
