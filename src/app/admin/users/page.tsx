@@ -1,7 +1,8 @@
 import prisma from "@/lib/prisma";
+import { User } from "@prisma/client"; // ✅ import type
 
 export default async function AdminUsersPage() {
-  const users = await prisma.user.findMany({
+  const users: User[] = await prisma.user.findMany({
     orderBy: { createdAt: "desc" },
   });
 
@@ -12,16 +13,18 @@ export default async function AdminUsersPage() {
       </h1>
 
       <div className="space-y-6">
-        {users.map((user) => (
+        {users.map((user: User) => (   {/* ✅ typed here */}
           <div
             key={user.id}
             className="bg-[#121826] p-6 rounded-xl border border-gray-800"
           >
             <p><strong>Email:</strong> {user.email}</p>
+
             <p>
               <strong>Status:</strong>{" "}
               {user.approved ? "Active ✅" : "Pending ⏳"}
             </p>
+
             <p>
               <strong>Batch:</strong> {user.batch || "Not Assigned"}
             </p>
