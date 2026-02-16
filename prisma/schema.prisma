@@ -22,7 +22,8 @@ model User {
 
   enrolledAt DateTime?  // When admin approves
   expiresAt  DateTime?  // Access end date
-
+  resetToken        String?
+  resetTokenExpiry  DateTime?
   // Optional future features
   status    String   @default("pending") // pending | active | expired | revoked
 
