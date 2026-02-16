@@ -14,14 +14,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const enrollment = await prisma.user.create({
-      data: {
-        name,
-        email,
-        approved: false,
-        batch: "Online",
-      },
-    });
+   const enrollment = await prisma.onlineEnrollment.create({
+  data: {
+    name,
+    email,
+    batch: "ONLINE",
+  },
+});
+
 
     return NextResponse.json({ success: true, enrollment });
   } catch (error) {

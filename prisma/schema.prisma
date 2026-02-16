@@ -90,6 +90,14 @@ model OfflineEnrollment {
   phone     String
   createdAt DateTime @default(now())
 }
+model OnlineEnrollment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
 
 
 model VideoProgress {
