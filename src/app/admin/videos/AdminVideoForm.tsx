@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 
-export default function AdminCourseForm() {
+type Course = {
+  id: string;
+  title: string;
+};
+
+type Props = {
+  courses: Course[];
+};
+
+export default function AdminVideoForm({ courses }: Props) {
   const [loading, setLoading] = useState(false);
-  const [type, setType] = useState("online");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -14,100 +22,72 @@ export default function AdminCourseForm() {
 
     const payload = {
       title: (form.elements.namedItem("title") as HTMLInputElement).value,
-      description: (form.elements.namedItem("description") as HTMLTextAreaElement).value,
-      price: (form.elements.namedItem("price") as HTMLInputElement).value,
-      thumbnail: (form.elements.namedItem("thumbnail") as HTMLInputElement).value,
-      type: (form.elements.namedItem("type") as HTMLSelectElement).value,
-      whatsapp: (form.elements.namedItem("whatsapp") as HTMLInputElement)?.value,
+      videoUrl: (form.elements.namedItem("videoUrl") as HTMLInputElement).value,
+      courseId: (form.elements.namedItem("courseId") as HTMLSelectElement).value,
     };
 
-    const res = await fetch("/api/admin/course", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch("/api/admin/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        alert("✅ Video uploaded successfully");
+        form.reset();
+      } else {
+        alert("❌ Failed to upload video");
+      }
+    } catch (error) {
+      alert("❌ Something went wrong");
+    }
 
     setLoading(false);
-
-    if (res.ok) {
-      alert("✅ Course created successfully");
-      form.reset();
-      setType("online");
-    } else {
-      alert("❌ Failed to create course");
-    }
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-10">
-      <h1 className="text-3xl font-bold mb-6">Create Course</h1>
+    <form
+      onSubmit={onSubmit}
+      className="max-w-xl space-y-4 bg-[#121826] p-6 rounded-xl border border-gray-800 text-white"
+    >
+      {/* Video Title */}
+      <input
+        name="title"
+        placeholder="Video Title"
+        required
+        className="w-full p-3 bg-black border border-gray-700 rounded"
+      />
 
-      <form
-        onSubmit={onSubmit}
-        className="max-w-xl space-y-4 bg-[#121826] p-6 rounded-xl border border-gray-800"
+      {/* Video URL */}
+      <input
+        name="videoUrl"
+        placeholder="Video URL"
+        required
+        className="w-full p-3 bg-black border border-gray-700 rounded"
+      />
+
+      {/* Select Course */}
+      <select
+        name="courseId"
+        required
+        className="w-full p-3 bg-black border border-gray-700 rounded"
       >
-        {/* Title */}
-        <input
-          name="title"
-          placeholder="Course Title"
-          required
-          className="w-full p-3 bg-black border border-gray-700 rounded"
-        />
+        <option value="">Select Course</option>
+        {courses.map((course) => (
+          <option key={course.id} value={course.id}>
+            {course.title}
+          </option>
+        ))}
+      </select>
 
-        {/* Description */}
-        <textarea
-          name="description"
-          placeholder="Description"
-          required
-          className="w-full p-3 bg-black border border-gray-700 rounded"
-        />
-
-        {/* Course Type */}
-        <select
-          name="type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="w-full p-3 bg-black border border-gray-700 rounded"
-        >
-          <option value="online">Online Course</option>
-          <option value="offline">Offline Course</option>
-        </select>
-
-        {/* Price (Only for Online) */}
-        {type === "online" && (
-          <input
-            name="price"
-            placeholder="Price"
-            required
-            className="w-full p-3 bg-black border border-gray-700 rounded"
-          />
-        )}
-
-        {/* WhatsApp (Only for Offline) */}
-        {type === "offline" && (
-          <input
-            name="whatsapp"
-            placeholder="WhatsApp Number (e.g. 919876543210)"
-            required
-            className="w-full p-3 bg-black border border-gray-700 rounded"
-          />
-        )}
-
-        {/* Thumbnail */}
-        <input
-          name="thumbnail"
-          placeholder="Thumbnail URL"
-          className="w-full p-3 bg-black border border-gray-700 rounded"
-        />
-
-        {/* Submit */}
-        <button
-          disabled={loading}
-          className="w-full bg-blue-600 py-3 rounded hover:bg-blue-700"
-        >
-          {loading ? "Creating..." : "Create Course"}
-        </button>
-      </form>
-    </div>
+      {/* Submit */}
+      <button
+        disabled={loading}
+        className="w-full bg-blue-600 py-3 rounded hover:bg-blue-700"
+      >
+        {loading ? "Uploading..." : "Upload Video"}
+      </button>
+    </form>
   );
 }
