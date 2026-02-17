@@ -8,53 +8,22 @@ export default function ResetPasswordClient() {
   const token = searchParams.get("token");
 
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   async function handleReset(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!token) {
-      setMessage("Invalid or expired reset link.");
-      return;
-    }
+    const res = await fetch("/api/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, password }),
+    });
 
-    if (password.length < 6) {
-      setMessage("Password must be at least 6 characters.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setMessage("");
-
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setMessage(data.error || "Something went wrong.");
-      } else {
-        setMessage("Password reset successful! You can now login.");
-        setPassword("");
-      }
-    } catch (error) {
-      setMessage("Server error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    const data = await res.json();
+    alert(data.message);
   }
 
   if (!token) {
-    return (
-      <p className="text-center mt-20 text-red-500">
-        Invalid reset link
-      </p>
-    );
+    return <p className="text-center mt-20">Invalid reset link</p>;
   }
 
   return (
@@ -76,18 +45,9 @@ export default function ResetPasswordClient() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button
-          disabled={loading}
-          className="w-full bg-blue-600 py-3 rounded disabled:opacity-50"
-        >
-          {loading ? "Resetting..." : "Reset Password"}
+        <button className="w-full bg-blue-600 py-3 rounded">
+          Reset Password
         </button>
-
-        {message && (
-          <p className="text-sm text-center mt-2 text-yellow-400">
-            {message}
-          </p>
-        )}
       </form>
     </div>
   );
