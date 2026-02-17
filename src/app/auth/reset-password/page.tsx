@@ -1,11 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import { Suspense } from "react";
 import ResetPasswordClient from "./ResetPasswordClient";
 
-export const dynamic = "force-dynamic"; // 🔥 VERY IMPORTANT
-
-export default function Page() {
+export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="text-center mt-20">Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
       <ResetPasswordClient />
     </Suspense>
   );
