@@ -3,30 +3,27 @@ import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-async function getCourses() {
+async function getData() {
   try {
     const courses = await prisma.course.findMany();
-
-    // Sort manually to avoid Prisma crash if createdAt null
-    const sortedCourses = courses.sort((a: any, b: any) => {
-      if (!a.createdAt) return 1;
-      if (!b.createdAt) return -1;
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    const blogs = await prisma.blog.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 3,
     });
 
-    return sortedCourses;
+    return { courses, blogs };
   } catch (error) {
-    console.error("Error fetching courses:", error);
-    return [];
+    console.error("Error fetching homepage data:", error);
+    return { courses: [], blogs: [] };
   }
 }
 
 export default async function HomePage() {
-  const courses = await getCourses();
+  const { courses, blogs } = await getData();
 
   return (
     <main className="min-h-screen bg-black text-white">
-      
+
       {/* HERO */}
       <section className="px-6 py-32 text-center">
         <h2 className="text-4xl md:text-6xl font-bold leading-tight">
@@ -42,7 +39,7 @@ export default async function HomePage() {
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/resources"
-            className="px-8 py-4 bg-blue-600 text-white rounded text-lg hover:bg-blue-700 transition font-semibold"
+            className="px-8 py-4 bg-blue-600 rounded text-lg hover:bg-blue-700 transition font-semibold"
           >
             Start Learning Free
           </Link>
@@ -65,9 +62,10 @@ export default async function HomePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {courses.map((course: any) => (
-              <div
+              <Link
                 key={course.id}
-                className="border border-gray-800 rounded-xl p-6 bg-[#121826]"
+                href={`/courses/${course.id}`}
+                className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
               >
                 <h4 className="text-2xl font-bold">{course.title}</h4>
                 <p className="text-gray-400 mt-3">
@@ -76,7 +74,31 @@ export default async function HomePage() {
                 <p className="text-blue-500 mt-4 font-semibold">
                   {course.price}
                 </p>
-              </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* BLOGS */}
+      <section className="px-10 pb-24">
+        <h3 className="text-3xl font-bold mb-10">Latest Blogs</h3>
+
+        {blogs.length === 0 ? (
+          <p className="text-gray-400">No blogs published yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {blogs.map((blog: any) => (
+              <Link
+                key={blog.id}
+                href={`/blogs/${blog.id}`}
+                className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+              >
+                <h4 className="text-xl font-bold">{blog.title}</h4>
+                <p className="text-gray-400 mt-3 line-clamp-3">
+                  {blog.content}
+                </p>
+              </Link>
             ))}
           </div>
         )}
