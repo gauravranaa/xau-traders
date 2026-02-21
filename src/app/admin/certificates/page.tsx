@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import prisma from "@/lib/prisma";
+import { Certificate } from "@prisma/client";
 
 export default async function CertificatesPage() {
-  let certificates = [];
+  let certificates: Certificate[] = [];
 
   try {
     certificates = await prisma.certificate.findMany({
@@ -27,7 +28,7 @@ export default async function CertificatesPage() {
         </p>
       ) : (
         <div className="grid md:grid-cols-3 gap-8">
-          {certificates.map((cert: any) => (
+          {certificates.map((cert) => (
             <div
               key={cert.id}
               className="bg-[#121826] border border-gray-800 rounded-xl p-4 hover:border-green-500 transition"
