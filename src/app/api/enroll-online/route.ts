@@ -13,8 +13,6 @@ export async function POST(req: Request) {
       name,
       email,
       phone,
-      
-      approved: false,
     },
   });
 
