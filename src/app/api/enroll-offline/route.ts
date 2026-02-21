@@ -13,7 +13,8 @@ export async function POST(req: Request) {
       name,
       email,
       phone,
-      batch: "OFFLINE",
+      approved: false,
+      
     },
   });
 
