@@ -12,13 +12,13 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.courseEnrollment.create({
+    await prisma.enrollmentRequest.create({
       data: {
         name,
         email,
         phone,
         courseId,
-        status: "pending",
+        
       },
     });
 
