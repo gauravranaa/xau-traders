@@ -47,7 +47,7 @@ export default async function LeadsPage() {
 
             <p>
               <strong>Course:</strong>{" "}
-              {lead.course?.title || "Unknown"}
+              {lead.course?.title ?? "Unknown"}
             </p>
 
             <p>
