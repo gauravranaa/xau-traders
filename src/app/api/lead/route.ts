@@ -8,21 +8,21 @@ export async function POST(req: Request) {
     const name = (formData.get("name") as string)?.trim();
     const email = (formData.get("email") as string)?.trim();
     const phone = (formData.get("phone") as string)?.trim();
-    const course = (formData.get("course") as string)?.trim();
-    const type = (formData.get("type") as string)?.trim(); // batch type
+    const courseId = (formData.get("courseId") as string)?.trim();
+    const type = (formData.get("type") as string)?.trim(); // online | offline
 
     // =============================
     // VALIDATIONS
     // =============================
 
-    if (!name || !email || !phone || !type) {
+    if (!name || !email || !phone || !courseId || !type) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
       );
     }
 
-    // Name: Only alphabets and spaces
+    // Name validation
     const nameRegex = /^[A-Za-z\s]+$/;
     if (!nameRegex.test(name)) {
       return NextResponse.json(
@@ -31,9 +31,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Email: Valid format
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
@@ -41,7 +40,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Phone: 10–15 digits only
+    // Phone validation
     const phoneRegex = /^[0-9]{10,15}$/;
     if (!phoneRegex.test(phone)) {
       return NextResponse.json(
@@ -50,11 +49,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // Batch type: Only alphabets
-    const typeRegex = /^[A-Za-z\s]+$/;
-    if (!typeRegex.test(type)) {
+    // Type validation (online/offline)
+    if (!["online", "offline"].includes(type.toLowerCase())) {
       return NextResponse.json(
-        { error: "Batch type must contain only characters" },
+        { error: "Invalid batch type" },
         { status: 400 }
       );
     }
@@ -63,20 +61,20 @@ export async function POST(req: Request) {
     // SAVE TO DATABASE
     // =============================
 
-    await prisma.lead.create({
+    await prisma.enrollmentRequest.create({
       data: {
         name,
         email,
         phone,
-        course,
-        type,
+        courseId,
+        status: "pending",
       },
     });
 
     return NextResponse.redirect(new URL("/thank-you", req.url));
 
   } catch (error) {
-    console.error("LEAD ERROR:", error);
+    console.error("ENROLLMENT REQUEST ERROR:", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
