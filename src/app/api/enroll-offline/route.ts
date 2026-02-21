@@ -7,16 +7,16 @@ export async function POST(req: Request) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
+  const courseId = formData.get("courseId") as string; // 👈 IMPORTANT
 
   await prisma.enrollmentRequest.create({
     data: {
       name,
       email,
       phone,
-      
-      
+      courseId, // 👈 REQUIRED
     },
   });
 
-  return NextResponse.json({ success: true });
+  return new Response("Success");
 }
