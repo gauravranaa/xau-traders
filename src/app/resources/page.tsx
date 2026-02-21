@@ -16,7 +16,7 @@ export default function ResourcesPage() {
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            href="https://www.youtube.com/@YOUR_CHANNEL"
+            href="https://www.youtube.com/@XAUTRADERS-OFFICIAL"
             target="_blank"
             className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded text-lg"
           >
@@ -38,34 +38,45 @@ export default function ResourcesPage() {
           Free Learning Material
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Market Structure Basics",
-              desc: "Understand HH, HL, LH, LL with real examples.",
-            },
-            {
-              title: "Smart Money Concepts",
-              desc: "Liquidity, inducement, BOS explained simply.",
-            },
-            {
-              title: "Trading Psychology",
-              desc: "How to avoid revenge trading & overtrading.",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="border border-gray-800 rounded-lg p-6 hover:border-blue-600 transition"
-            >
-              <h3 className="text-lg font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-gray-400 mt-2">
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+        <div className="grid md:grid-cols-3 gap-8 mt-10">
+
+  <Link
+    href="/resources/risk-management"
+    className="border border-blue-600 rounded-xl p-6 bg-[#0F1F30] hover:border-blue-400 transition block"
+  >
+    <h4 className="text-xl font-semibold mb-3">
+      Risk Management Blueprint
+    </h4>
+    <p className="text-gray-400">
+      Learn how professional traders protect capital and scale safely.
+    </p>
+  </Link>
+
+  <Link
+    href="/resources/trading-plan"
+    className="border border-gray-700 rounded-xl p-6 bg-[#0F1F30] hover:border-blue-400 transition block"
+  >
+    <h4 className="text-xl font-semibold mb-3">
+      Build a Professional Trading Plan
+    </h4>
+    <p className="text-gray-400">
+      Create a structured system before risking real money.
+    </p>
+  </Link>
+
+  <Link
+    href="/resources/psychology-discipline"
+    className="border border-gray-700 rounded-xl p-6 bg-[#0F1F30] hover:border-blue-400 transition block"
+  >
+    <h4 className="text-xl font-semibold mb-3">
+      Psychology & Discipline Mastery
+    </h4>
+    <p className="text-gray-400">
+      Master emotional control and avoid self-sabotage.
+    </p>
+  </Link>
+
+</div>
       </section>
 
       {/* SOCIAL LINKS */}

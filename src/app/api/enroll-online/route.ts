@@ -1,36 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
+export async function POST(req: Request) {
+  const formData = await req.formData();
 
-    // ✅ Extract phone also
-    const { name, email, phone } = body;
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const phone = formData.get("phone") as string;
 
-    if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+  await prisma.onlineEnrollment.create({
+    data: {
+      name,
+      email,
+      phone,
+      batch: "ONLINE",
+      approved: false,
+    },
+  });
 
-    const enrollment = await prisma.onlineEnrollment.create({
-      data: {
-        name,
-        email,
-        phone,           // ✅ Now defined
-        batch: "ONLINE",
-      },
-    });
-
-    return NextResponse.json({ success: true, enrollment });
-  } catch (error) {
-    console.error("ONLINE ENROLL ERROR:", error);
-
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({ success: true });
 }

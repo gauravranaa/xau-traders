@@ -4,13 +4,12 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
-import { ADMIN_EMAILS } from "@/lib/admin"; // ✅ admin whitelist
+import { ADMIN_EMAILS } from "@/lib/admin";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [mounted, setMounted] = useState(false);
 
-  // ✅ Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -25,70 +24,79 @@ export default function Navbar() {
     <header
       className="
         sticky top-0 z-50
-        bg-[#0B0F14]/90
-        backdrop-blur-md
-        border-b border-white/10
-        shadow-xl
+        bg-primary
+        border-b border-accent/30
+        shadow-sm
       "
     >
-      <div className="flex items-center justify-between px-10 py-4">
+      <div className="flex items-center justify-between px-10 py-5 max-w-7xl mx-auto">
+        
         {/* LOGO */}
         <Link
           href="/"
-          className="text-2xl font-bold tracking-tight text-white"
+          className="text-2xl font-heading font-bold tracking-wide text-white"
         >
-          XAU<span className="text-blue-500"> TRADERS</span>
+          XAU<span className="text-accent"> TRADERS</span>
         </Link>
 
         {/* NAV LINKS */}
-        
-
-        <nav className="flex items-center gap-6 text-white">
+        <nav className="flex items-center gap-8 text-sm font-medium">
+          
           <Link
-           href="/certificates"
-           className="text-gray-200 hover:text-white transition"
+            href="/certificates"
+            className="text-gray-300 hover:text-white transition"
           >
-  Proof of Work
-</Link>
+            Proof of Work
+          </Link>
 
           <Link
-            href="/#courses"
-            className="text-gray-200 hover:text-white transition"
+            href="/courses"
+            className="text-gray-300 hover:text-white transition"
           >
             Courses
           </Link>
-          <Link href="/why-us"className="text-gray-200 hover:text-white transition">Why Choose Us    </Link>
-          <Link href="/mission"className="text-gray-200 hover:text-white transition">Mission & Vision</Link>
 
           <Link
-            href="/#vlogs"
-            className="text-gray-200 hover:text-white transition"
+            href="/why-us"
+            className="text-gray-300 hover:text-white transition"
+          >
+            Why Choose Us
+          </Link>
+
+          <Link
+            href="/mission"
+            className="text-gray-300 hover:text-white transition"
+          >
+            Mission & Vision
+          </Link>
+
+          <Link
+            href="/blogs"
+            className="text-gray-300 hover:text-white transition"
           >
             Blogs
           </Link>
 
           {session ? (
             <>
-              {/* Dashboard */}
               <Link
                 href="/dashboard"
                 className="
-                  px-4 py-2 rounded
-                  border border-white/20
+                  px-5 py-2 rounded
+                  border border-accent/40
                   text-white
-                  hover:bg-white/10
+                  hover:bg-accent/10
                   transition
                 "
               >
                 Dashboard
               </Link>
 
-              {/* ✅ ADMIN (ONLY FOR WHITELISTED EMAILS) */}
               {isAdmin && (
                 <Link
                   href="/admin"
                   className="
-                    px-4 py-2 rounded
+                    px-5 py-2 rounded
                     border border-red-500/40
                     text-red-400
                     hover:bg-red-500/10
@@ -99,34 +107,32 @@ export default function Navbar() {
                 </Link>
               )}
 
-              {/* Logout */}
               <LogoutButton />
             </>
           ) : (
             <>
-              {/* Login */}
               <Link
                 href="/auth/signin"
                 className="
-                  px-4 py-2 rounded
+                  px-5 py-2 rounded
                   border border-white/20
                   text-white
-                  hover:bg-white/10
+                  hover:bg-white/5
                   transition
                 "
               >
                 Login
               </Link>
 
-              {/* Sign Up */}
               <Link
                 href="/auth/register"
                 className="
-                  px-4 py-2 rounded
-                  bg-blue-600
-                  text-white
-                  hover:bg-blue-700
+                  px-5 py-2 rounded
+                  bg-accent
+                  text-black
+                  hover:opacity-90
                   transition
+                  font-semibold
                 "
               >
                 Sign Up

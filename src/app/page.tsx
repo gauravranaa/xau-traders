@@ -5,10 +5,13 @@ export const dynamic = "force-dynamic";
 
 async function getData() {
   try {
-    const courses = await prisma.course.findMany();
+    const courses = await prisma.course.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
     const blogs = await prisma.blog.findMany({
       orderBy: { createdAt: "desc" },
-      take: 3,
+      take: 3, // 👈 only latest 3 blogs
     });
 
     return { courses, blogs };
@@ -54,35 +57,55 @@ export default async function HomePage() {
       </section>
 
       {/* COURSES */}
-      <section id="courses" className="px-10 py-24">
-        <h3 className="text-3xl font-bold mb-10">Featured Programs</h3>
+{/* COURSES */}
+<section id="courses" className="px-10 py-24">
+  <h3 className="text-3xl font-bold mb-10">
+    Featured Programs
+  </h3>
 
-        {courses.length === 0 ? (
-          <p className="text-gray-400">No courses available.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {courses.map((course: any) => (
-              <Link
-                key={course.id}
-                href={`/courses/${course.id}`}
-                className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
-              >
-                <h4 className="text-2xl font-bold">{course.title}</h4>
-                <p className="text-gray-400 mt-3">
-                  {course.description || "No description"}
-                </p>
-                <p className="text-blue-500 mt-4 font-semibold">
-                  {course.price}
-                </p>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
+  {courses.length === 0 ? (
+    <p className="text-gray-400">
+      No courses available.
+    </p>
+  ) : (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {courses.map((course: any) => (
+        <Link
+          key={course.id}
+          href={`/courses/${course.id}`}  // ✅ dynamic route
+          className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+        >
+          <h4 className="text-2xl font-bold">
+            {course.title}
+          </h4>
+
+          <p className="text-gray-400 mt-3">
+            {course.description
+              ? course.description.slice(0, 120) + "..."
+              : "No description"}
+          </p>
+
+          <p className="text-blue-500 mt-4 font-semibold">
+            {course.price}
+          </p>
+        </Link>
+      ))}
+    </div>
+  )}
+</section>
+
 
       {/* BLOGS */}
       <section className="px-10 pb-24">
-        <h3 className="text-3xl font-bold mb-10">Latest Blogs</h3>
+        <div className="flex justify-between items-center mb-10">
+          <h3 className="text-3xl font-bold">Latest Blogs</h3>
+          <Link
+            href="/blogs"
+            className="text-blue-500 hover:underline"
+          >
+            View All →
+          </Link>
+        </div>
 
         {blogs.length === 0 ? (
           <p className="text-gray-400">No blogs published yet.</p>
@@ -91,7 +114,7 @@ export default async function HomePage() {
             {blogs.map((blog: any) => (
               <Link
                 key={blog.id}
-                href={`/blogs/${blog.id}`}
+                href={`/blogs/${blog.slug}`}  // 👈 use slug
                 className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
               >
                 <h4 className="text-xl font-bold">{blog.title}</h4>

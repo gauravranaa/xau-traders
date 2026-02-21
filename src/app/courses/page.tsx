@@ -1,66 +1,88 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
-type CourseType = {
-  id: string;
-  title: string;
-  description: string;
-  price: string | null;
-  thumbnail: string | null;
-  type: string;
-  createdAt: Date;
-};
+export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
-  const courses: CourseType[] = await prisma.course.findMany({
+  const courses = await prisma.course.findMany({
     orderBy: { createdAt: "desc" },
   });
 
-  return (
-    <div className="min-h-screen bg-black text-white px-10 py-20">
+  const onlineCourses = courses.filter(
+    (course) => course.type === "online"
+  );
 
-      <h1 className="text-4xl font-bold mb-12 text-center">
+  const offlineCourses = courses.filter(
+    (course) => course.type === "offline"
+  );
+
+  return (
+    <div className="min-h-screen bg-black text-white px-6 py-20">
+      <h1 className="text-4xl font-bold text-center mb-16">
         Our Courses
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {courses.map((course: CourseType) => (
-          <div
-            key={course.id}
-            className="bg-[#121826] border border-gray-800 rounded-xl p-6 hover:border-blue-500 transition"
-          >
-            {course.thumbnail && (
-              <img
-                src={course.thumbnail}
-                alt={course.title}
-                className="w-full h-48 object-cover rounded mb-4"
-              />
-            )}
+      {onlineCourses.length > 0 && (
+        <section className="max-w-6xl mx-auto mb-20">
+          <h2 className="text-2xl font-semibold mb-8 text-blue-500">
+            Online Programs
+          </h2>
 
-            <h2 className="text-xl font-semibold mb-2">
-              {course.title}
-            </h2>
-
-            <p className="text-gray-400 text-sm mb-4">
-              {course.description}
-            </p>
-
-            {course.type === "online" && (
-              <p className="text-green-400 font-semibold mb-4">
-                {course.price}
-              </p>
-            )}
-
-            <Link
-              href={`/courses/${course.id}`}
-              className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm"
-            >
-              View Course
-            </Link>
+          <div className="grid md:grid-cols-2 gap-8">
+            {onlineCourses.map((course: any) => (
+              <Link
+                key={course.id}
+                href={`/courses/${course.id}`}
+                className="border border-gray-800 rounded-xl p-6 bg-[#121826] hover:border-blue-500 transition block"
+              >
+                <h3 className="text-xl font-bold">{course.title}</h3>
+                <p className="text-gray-400 mt-3">
+                  {course.description
+                    ? course.description.slice(0, 120) + "..."
+                    : "No description available."}
+                </p>
+                <p className="text-blue-500 mt-4 font-semibold">
+                  {course.price}
+                </p>
+              </Link>
+            ))}
           </div>
-        ))}
-      </div>
+        </section>
+      )}
 
+      {offlineCourses.length > 0 && (
+        <section className="max-w-6xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-8 text-green-500">
+            Offline Programs
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {offlineCourses.map((course: any) => (
+              <Link
+                key={course.id}
+                href={`/courses/${course.id}`}
+                className="border border-gray-800 rounded-xl p-6 bg-[#121826] hover:border-green-500 transition block"
+              >
+                <h3 className="text-xl font-bold">{course.title}</h3>
+                <p className="text-gray-400 mt-3">
+                  {course.description
+                    ? course.description.slice(0, 120) + "..."
+                    : "No description available."}
+                </p>
+                <p className="text-green-500 mt-4 font-semibold">
+                  {course.price}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {courses.length === 0 && (
+        <div className="text-center text-gray-400 mt-20">
+          No courses available right now.
+        </div>
+      )}
     </div>
   );
 }

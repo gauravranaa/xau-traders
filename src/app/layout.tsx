@@ -18,8 +18,9 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = {
-  title: "Trading Education Platform",
-  description: "Learn trading with structured courses and resources",
+  title: "XAU TRADERS | Trading Education Platform",
+  description:
+    "Structured trading education with professional mentorship and risk-first philosophy.",
 };
 
 export default function RootLayout({
@@ -30,14 +31,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${archivo.variable} antialiased bg-[#0B0F14] text-[#E5E7EB]`}
+        className={`
+          ${dmSans.variable}
+          ${archivo.variable}
+          antialiased
+          bg-primary
+          text-white
+          font-body
+        `}
       >
-        {/* ✅ SessionWrapper provides NextAuth session to entire app */}
         <SessionWrapper>
-          {/* ✅ Sticky Navbar (single source of truth) */}
           <Navbar />
 
-          {/* ✅ Page content */}
           <main className="pt-20">
             {children}
           </main>
