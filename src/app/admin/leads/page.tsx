@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import prisma from "@/lib/prisma";
+import { EnrollmentRequest } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -19,7 +20,7 @@ export default async function LeadsPage() {
     redirect("/dashboard");
   }
 
-  let leads = [];
+  let leads: EnrollmentRequest[] = [];
 
   try {
     leads = await prisma.enrollmentRequest.findMany({
@@ -45,7 +46,7 @@ export default async function LeadsPage() {
       )}
 
       <div className="space-y-6">
-        {leads.map((lead: any) => (
+        {leads.map((lead) => (
           <div
             key={lead.id}
             className="border border-gray-800 rounded-xl p-6 bg-[#121826]"
@@ -56,7 +57,7 @@ export default async function LeadsPage() {
 
             <p>
               <strong>Course:</strong>{" "}
-              {lead.course?.title ?? "Unknown"}
+              {(lead as any).course?.title ?? "Unknown"}
             </p>
 
             <p>
