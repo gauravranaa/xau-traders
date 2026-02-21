@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -16,14 +19,20 @@ export default async function LeadsPage() {
     redirect("/dashboard");
   }
 
-  const leads = await prisma.enrollmentRequest.findMany({
-    include: {
-      course: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  let leads = [];
+
+  try {
+    leads = await prisma.enrollmentRequest.findMany({
+      include: {
+        course: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch leads:", error);
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-10">
@@ -36,7 +45,7 @@ export default async function LeadsPage() {
       )}
 
       <div className="space-y-6">
-        {leads.map((lead) => (
+        {leads.map((lead: any) => (
           <div
             key={lead.id}
             className="border border-gray-800 rounded-xl p-6 bg-[#121826]"
