@@ -5,11 +5,6 @@ import { redirect } from "next/navigation";
 
 const ADMIN_EMAILS = ["gaurav.rana2803@gmail.com"];
 
-// ✅ Correct type using EnrollmentRequest
-type LeadsType = Awaited<
-  ReturnType<typeof prisma.enrollmentRequest.findMany>
->;
-
 export default async function LeadsPage() {
   const session = await getServerSession(authOptions);
 
@@ -21,8 +16,7 @@ export default async function LeadsPage() {
     redirect("/dashboard");
   }
 
-  // ✅ Fetch enrollment requests + include course relation
-  const leads: LeadsType = await prisma.enrollmentRequest.findMany({
+  const leads = await prisma.enrollmentRequest.findMany({
     include: {
       course: true,
     },
@@ -51,7 +45,6 @@ export default async function LeadsPage() {
             <p><strong>Email:</strong> {lead.email}</p>
             <p><strong>Phone:</strong> {lead.phone}</p>
 
-            {/* ✅ Show course title instead of object */}
             <p>
               <strong>Course:</strong>{" "}
               {lead.course?.title || "Unknown"}
