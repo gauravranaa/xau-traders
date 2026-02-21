@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
 
-  await prisma.onlineEnrollment.create({
+  await prisma.enrollmentRequest.create({
     data: {
       name,
       email,
