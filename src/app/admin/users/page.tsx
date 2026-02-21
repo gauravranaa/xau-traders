@@ -2,9 +2,10 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import prisma from "@/lib/prisma";
+import { User } from "@prisma/client";
 
 export default async function AdminUsersPage() {
-  let users = [];
+  let users: User[] = [];
 
   try {
     users = await prisma.user.findMany({
@@ -24,7 +25,7 @@ export default async function AdminUsersPage() {
         {users.length === 0 ? (
           <p className="text-gray-400">No users found.</p>
         ) : (
-          users.map((user: any) => (
+          users.map((user) => (
             <div
               key={user.id}
               className="bg-[#121826] p-6 rounded-xl border border-gray-800"
