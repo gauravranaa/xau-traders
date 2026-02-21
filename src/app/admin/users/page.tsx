@@ -1,9 +1,18 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import prisma from "@/lib/prisma";
 
 export default async function AdminUsersPage() {
-  const users = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let users = [];
+
+  try {
+    users = await prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+  }
 
   return (
     <div className="min-h-screen bg-black text-white px-6 py-20">
@@ -12,43 +21,47 @@ export default async function AdminUsersPage() {
       </h1>
 
       <div className="space-y-6">
-        {users.map((user: any) => (
-          <div
-            key={user.id}
-            className="bg-[#121826] p-6 rounded-xl border border-gray-800"
-          >
-            <p><strong>Email:</strong> {user.email}</p>
+        {users.length === 0 ? (
+          <p className="text-gray-400">No users found.</p>
+        ) : (
+          users.map((user: any) => (
+            <div
+              key={user.id}
+              className="bg-[#121826] p-6 rounded-xl border border-gray-800"
+            >
+              <p><strong>Email:</strong> {user.email}</p>
 
-            <p>
-              <strong>Status:</strong>{" "}
-              {user.approved ? "Active ✅" : "Pending ⏳"}
-            </p>
+              <p>
+                <strong>Status:</strong>{" "}
+                {user.approved ? "Active ✅" : "Pending ⏳"}
+              </p>
 
-            <p>
-              <strong>Batch:</strong> {user.batch || "Not Assigned"}
-            </p>
+              <p>
+                <strong>Batch:</strong> {user.batch || "Not Assigned"}
+              </p>
 
-            {!user.approved && (
-              <form action="/api/admin/approve" method="POST" className="mt-4">
-                <input type="hidden" name="userId" value={user.id} />
+              {!user.approved && (
+                <form action="/api/admin/approve" method="POST" className="mt-4">
+                  <input type="hidden" name="userId" value={user.id} />
 
-                <select
-                  name="batch"
-                  required
-                  className="p-2 bg-black border border-gray-700 rounded mr-3"
-                >
-                  <option value="">Select Batch</option>
-                  <option value="Online">Online</option>
-                  <option value="Offline">Offline</option>
-                </select>
+                  <select
+                    name="batch"
+                    required
+                    className="p-2 bg-black border border-gray-700 rounded mr-3"
+                  >
+                    <option value="">Select Batch</option>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                  </select>
 
-                <button className="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
-                  Approve
-                </button>
-              </form>
-            )}
-          </div>
-        ))}
+                  <button className="bg-green-600 px-4 py-2 rounded hover:bg-green-700">
+                    Approve
+                  </button>
+                </form>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
