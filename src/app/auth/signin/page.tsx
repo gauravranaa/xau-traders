@@ -13,21 +13,21 @@ export default function SignInPage() {
     const form = e.currentTarget;
 
     const result = await signIn("credentials", {
-  email: (form.email as HTMLInputElement).value,
-  password: (form.password as HTMLInputElement).value,
-  redirect: false,
-});
+      email: (form.email as HTMLInputElement).value,
+      password: (form.password as HTMLInputElement).value,
+      redirect: false,
+    });
 
-if (result?.ok) {
-  router.replace("/dashboard");
-} else {
-  alert("Invalid email or password");
-}
+    if (result?.ok) {
+      router.replace("/dashboard");
+    } else {
+      alert("Invalid email or password");
+    }
+  } // ✅ THIS WAS MISSING
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0B0F14] px-4">
       <div className="w-full max-w-md bg-[#121826] border border-gray-800 rounded-2xl p-8">
-
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="font-heading text-3xl font-bold text-white">
@@ -47,7 +47,6 @@ if (result?.ok) {
             <input
               name="email"
               type="email"
-              placeholder="you@example.com"
               required
               className="mt-2 w-full rounded-xl bg-[#0B0F14] border border-gray-700 px-4 py-3 text-sm text-white outline-none focus:border-green-400 transition"
             />
@@ -60,17 +59,17 @@ if (result?.ok) {
             <input
               name="password"
               type="password"
-              placeholder="••••••••"
               required
               className="mt-2 w-full rounded-xl bg-[#0B0F14] border border-gray-700 px-4 py-3 text-sm text-white outline-none focus:border-green-400 transition"
             />
           </div>
+
           <Link
-  href="/auth/forget-password"
-  className="text-sm text-blue-400 hover:underline text-right"
->
-  Forgot password?
-</Link>
+            href="/auth/forget-password"
+            className="text-sm text-blue-400 hover:underline text-right block"
+          >
+            Forgot password?
+          </Link>
 
           <button
             type="submit"
@@ -80,7 +79,6 @@ if (result?.ok) {
           </button>
         </form>
 
-        {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-400 font-body">
           Don’t have an account?{" "}
           <Link
