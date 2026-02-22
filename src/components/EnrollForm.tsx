@@ -66,11 +66,12 @@ export default function EnrollForm({ courseType }: { courseType: string }) {
   />
 
   <button
-    type="submit"
-    className="w-full bg-accent text-black py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition"
-  >
-    {loading ? "Submitting..." : "Submit Enquiry"}
-  </button>
+  type="submit"
+  className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 rounded-xl transition mt-4"
+>
+  Submit Enquiry
+</button>
 </form>
   );
 }
+

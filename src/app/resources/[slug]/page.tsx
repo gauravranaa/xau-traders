@@ -12,7 +12,7 @@ A strong framework includes fixed percentage risk per trade, strict stop-loss pl
 
 Professional traders treat capital like business inventory. They preserve it, protect it, and grow it gradually.
 
-Master risk management and you eliminate the biggest reason traders fail — emotional overexposure.`
+Master risk management and you eliminate the biggest reason traders fail — emotional overexposure.`,
   },
 
   "trading-plan": {
@@ -25,7 +25,7 @@ When rules are written, emotions reduce. You stop reacting and start executing.
 
 Your trading plan creates structure. Structure creates consistency.
 
-Consistency builds profitability.`
+Consistency builds profitability.`,
   },
 
   "psychology-discipline": {
@@ -38,18 +38,16 @@ Discipline means following your system even after losses. It means accepting sma
 
 Professional traders focus on emotional stability.
 
-Master discipline, and performance becomes sustainable.`
-  }
+Master discipline, and performance becomes sustainable.`,
+  },
 };
 
-export default async function ResourceDetailPage({
+export default function ResourceDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
-
-  const resource = resources[slug];
+  const resource = resources[params.slug];
 
   if (!resource) return notFound();
 

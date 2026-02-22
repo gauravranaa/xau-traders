@@ -96,36 +96,95 @@ export default async function HomePage() {
 
 
       {/* BLOGS */}
-      <section className="px-10 pb-24">
-        <div className="flex justify-between items-center mb-10">
-          <h3 className="text-3xl font-bold">Latest Blogs</h3>
-          <Link
-            href="/blogs"
-            className="text-blue-500 hover:underline"
-          >
-            View All →
-          </Link>
-        </div>
+ <section className="px-6 md:px-10 pb-24">
 
-        {blogs.length === 0 ? (
-          <p className="text-gray-400">No blogs published yet.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {blogs.map((blog: any) => (
-              <Link
-                key={blog.id}
-                href={`/blogs/${blog.slug}`}  // 👈 use slug
-                className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
-              >
-                <h4 className="text-xl font-bold">{blog.title}</h4>
-                <p className="text-gray-400 mt-3 line-clamp-3">
-                  {blog.content}
-                </p>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
+  {/* ===== Featured Learning Material ===== */}
+  <div className="mb-20">
+    <div className="flex justify-between items-center mb-10">
+      <h3 className="text-3xl font-bold">Featured Learning Material</h3>
+      <Link
+        href="/resources"
+        className="text-blue-500 hover:underline"
+      >
+        View All →
+      </Link>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <Link
+        href="/resources/risk-management-blueprint"
+        className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+      >
+        <h4 className="text-xl font-bold">
+          Risk Management Blueprint
+        </h4>
+        <p className="text-gray-400 mt-3">
+          Learn how professional traders protect capital and scale safely.
+        </p>
+      </Link>
+
+      <Link
+        href="/resources/professional-trading-plan"
+        className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+      >
+        <h4 className="text-xl font-bold">
+          Build a Professional Trading Plan
+        </h4>
+        <p className="text-gray-400 mt-3">
+          Create a structured system before risking real money.
+        </p>
+      </Link>
+
+      <Link
+        href="/resources/psychology-discipline-mastery"
+        className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+      >
+        <h4 className="text-xl font-bold">
+          Psychology & Discipline Mastery
+        </h4>
+        <p className="text-gray-400 mt-3">
+          Master emotional control and eliminate emotional trading mistakes.
+        </p>
+      </Link>
+
+    </div>
+  </div>
+
+
+  {/* ===== Latest Blogs ===== */}
+  <div>
+    <div className="flex justify-between items-center mb-10">
+      <h3 className="text-3xl font-bold">Latest Blogs</h3>
+      <Link
+        href="/blogs"
+        className="text-blue-500 hover:underline"
+      >
+        View All →
+      </Link>
+    </div>
+
+    {blogs.length === 0 ? (
+      <p className="text-gray-400">No blogs published yet.</p>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {blogs.map((blog: any) => (
+          <Link
+            key={blog.id}
+            href={`/blogs/${blog.slug}`}
+            className="border border-gray-800 rounded-xl p-6 bg-[#121826] block hover:border-blue-500 transition"
+          >
+            <h4 className="text-xl font-bold">{blog.title}</h4>
+            <p className="text-gray-400 mt-3 line-clamp-3">
+              {blog.content}
+            </p>
+          </Link>
+        ))}
+      </div>
+    )}
+  </div>
+
+</section>
 
       {/* FOOTER */}
       <footer className="border-t border-gray-800 py-8 text-center text-gray-500">
