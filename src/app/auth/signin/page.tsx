@@ -12,18 +12,17 @@ export default function SignInPage() {
 
     const form = e.currentTarget;
 
-    const res = await signIn("credentials", {
-      email: (form.email as HTMLInputElement).value,
-      password: (form.password as HTMLInputElement).value,
-      redirect: false,
-    });
+    const result = await signIn("credentials", {
+  email: (form.email as HTMLInputElement).value,
+  password: (form.password as HTMLInputElement).value,
+  redirect: false,
+});
 
-    if (!res?.error) {
-      router.push("/dashboard");
-    } else {
-      alert("Invalid email or password");
-    }
-  }
+if (result?.ok) {
+  router.replace("/dashboard");
+} else {
+  alert("Invalid email or password");
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0B0F14] px-4">
