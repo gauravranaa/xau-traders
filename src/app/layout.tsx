@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Archivo } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 import SessionWrapper from "@/components/SessionWrapper";
 import Navbar from "@/components/Navbar";
@@ -45,7 +46,9 @@ export default function RootLayout({
 
           <main className="pt-20">
             {children}
+            <Footer />
           </main>
+          
         </SessionWrapper>
       </body>
     </html>
