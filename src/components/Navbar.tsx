@@ -24,55 +24,83 @@ export default function Navbar() {
     <header
       className="
         sticky top-0 z-50
-        bg-primary
-        border-b border-accent/30
-        shadow-sm
+        bg-black/70 backdrop-blur-md
+        border-b border-gray-800
+        shadow-[0_0_20px_rgba(0,0,0,0.4)]
       "
     >
-      <div className="flex items-center justify-between px-10 py-5 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between px-6 md:px-10 py-5 max-w-7xl mx-auto">
         
         {/* LOGO */}
         <Link
           href="/"
-          className="text-2xl font-heading font-bold tracking-wide text-white"
+          className="
+            text-2xl font-heading font-bold tracking-wide text-white
+            hover:text-accent transition
+          "
         >
-          XAU<span className="text-accent"> TRADERS</span>
+          XAU <span className="text-accent">TRADERS</span>
         </Link>
 
         {/* NAV LINKS */}
-        <nav className="flex items-center gap-8 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           
           <Link
             href="/certificates"
-            className="text-gray-300 hover:text-white transition"
+            className="
+              text-gray-300 hover:text-white transition relative
+              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+              after:w-0 after:bg-accent after:transition-all
+              hover:after:w-full
+            "
           >
             Proof of Work
           </Link>
 
           <Link
             href="/courses"
-            className="text-gray-300 hover:text-white transition"
+            className="
+              text-gray-300 hover:text-white transition relative
+              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+              after:w-0 after:bg-accent after:transition-all
+              hover:after:w-full
+            "
           >
             Courses
           </Link>
 
           <Link
             href="/why-us"
-            className="text-gray-300 hover:text-white transition"
+            className="
+              text-gray-300 hover:text-white transition relative
+              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+              after:w-0 after:bg-accent after:transition-all
+              hover:after:w-full
+            "
           >
             Why Choose Us
           </Link>
 
           <Link
             href="/mission"
-            className="text-gray-300 hover:text-white transition"
+            className="
+              text-gray-300 hover:text-white transition relative
+              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+              after:w-0 after:bg-accent after:transition-all
+              hover:after:w-full
+            "
           >
             Mission & Vision
           </Link>
 
           <Link
             href="/blogs"
-            className="text-gray-300 hover:text-white transition"
+            className="
+              text-gray-300 hover:text-white transition relative
+              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+              after:w-0 after:bg-accent after:transition-all
+              hover:after:w-full
+            "
           >
             Blogs
           </Link>
@@ -128,9 +156,9 @@ export default function Navbar() {
                 href="/auth/register"
                 className="
                   px-5 py-2 rounded
-                  bg-accent
-                  text-black
-                  hover:opacity-90
+                  border border-white/20
+                  text-white
+                  hover:bg-white/5
                   transition
                   font-semibold
                 "
@@ -140,6 +168,12 @@ export default function Navbar() {
             </>
           )}
         </nav>
+
+        {/* MOBILE MENU PLACEHOLDER */}
+        <div className="md:hidden text-white text-xl cursor-pointer">
+          ☰
+        </div>
+
       </div>
     </header>
   );

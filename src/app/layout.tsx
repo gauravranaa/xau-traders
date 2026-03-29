@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { DM_Sans, Archivo } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/Footer";
 
-import SessionWrapper from "@/components/SessionWrapper";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import SessionWrapper from "@/components/SessionWrapper";
+import ContactPopup from "@/components/ContactPopup"; // ✅ FIX
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -46,9 +47,10 @@ export default function RootLayout({
 
           <main className="pt-20">
             {children}
-            <Footer />
           </main>
-          
+
+          <ContactPopup /> {/* ✅ Correct placement */}
+          <Footer />       {/* ✅ Outside main */}
         </SessionWrapper>
       </body>
     </html>

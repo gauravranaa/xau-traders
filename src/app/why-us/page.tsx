@@ -12,7 +12,7 @@ export default function WhyUsPage() {
             Structured 3-Month Curriculum
           </h2>
           <p className="text-gray-400">
-            Step-by-step professional training focused on gold (XAUUSD).
+            Step-by-step professional training focused on gold (XAUUSD), Crypto and forex.
           </p>
         </div>
 

@@ -186,10 +186,7 @@ export default async function HomePage() {
 
 </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-gray-800 py-8 text-center text-gray-500">
-        <p>© {new Date().getFullYear()} TradingEdu</p>
-      </footer>
+      
     </main>
   );
 }
