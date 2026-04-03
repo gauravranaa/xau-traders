@@ -36,6 +36,24 @@ export default function WhyUsPage() {
 
         <div className="bg-[#121826] p-6 rounded-xl border border-gray-800">
           <h2 className="text-xl font-semibold mb-3">
+            Learn during live sessions
+          </h2>
+          <p className="text-gray-400">
+            We focus on practical learning, we will guide in live markets.
+          </p>
+        </div>
+
+        <div className="bg-[#121826] p-6 rounded-xl border border-gray-800">
+          <h2 className="text-xl font-semibold mb-3">
+            Get Funded
+          </h2>
+          <p className="text-gray-400">
+            We will provide 5000$-10000$ funded account after completion of course.
+          </p>
+        </div>
+
+        <div className="bg-[#121826] p-6 rounded-xl border border-gray-800">
+          <h2 className="text-xl font-semibold mb-3">
             No Signal Selling
           </h2>
           <p className="text-gray-400">

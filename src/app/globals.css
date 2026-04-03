@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* 60% PRIMARY - Deep Navy */
-  --color-primary: #0B1C2D;
+  /* 60% PRIMARY - Deep Dark Background */
+  --color-primary: #000000;
 
-  /* 30% SECONDARY - Soft Beige */
-  --color-secondary: #F5EFE6;
+  /* 30% SECONDARY - Dark Panels */
+  --color-secondary: #0c0d11;
 
   /* 10% ACCENT - Gold */
-  --color-accent: #C6A75E;
+  --color-accent: #FFD700;
+
+  /* Status */
+  --color-profit: #00C853;
+  --color-loss: #FF3D00;
 
   /* Text */
-  --color-text-dark: #111827;
+  --color-text-dark: #0F172A;
   --color-text-light: #FFFFFF;
+  --color-text-muted: #9CA3AF;
 }
 
 /* Base background */
