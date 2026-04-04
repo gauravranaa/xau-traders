@@ -24,9 +24,9 @@ export default function Navbar() {
     <header
       className="
         sticky top-0 z-50
-        bg-black/70 backdrop-blur-md
-        border-b border-gray-800
-        shadow-[0_0_20px_rgba(0,0,0,0.4)]
+        bg-white/80 backdrop-blur-md
+        border-b border-gray-200
+        shadow-sm
       "
     >
       <div className="flex items-center justify-between px-6 md:px-10 py-5 max-w-7xl mx-auto">
@@ -35,75 +35,36 @@ export default function Navbar() {
         <Link
           href="/"
           className="
-            text-2xl font-heading font-bold tracking-wide text-white
-            hover:text-accent transition
+            text-2xl font-heading font-bold tracking-wide text-black
+            hover:text-green-600 transition
           "
         >
-          XAU <span className="text-accent">TRADERS</span>
+          XAU <span className="text-green-600">TRADERS</span>
         </Link>
 
         {/* NAV LINKS */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           
-          <Link
-            href="/certificates"
-            className="
-              text-gray-300 hover:text-white transition relative
-              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
-              after:w-0 after:bg-accent after:transition-all
-              hover:after:w-full
-            "
-          >
-            Proof of Work
-          </Link>
-
-          <Link
-            href="/courses"
-            className="
-              text-gray-300 hover:text-white transition relative
-              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
-              after:w-0 after:bg-accent after:transition-all
-              hover:after:w-full
-            "
-          >
-            Courses
-          </Link>
-
-          <Link
-            href="/why-us"
-            className="
-              text-gray-300 hover:text-white transition relative
-              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
-              after:w-0 after:bg-accent after:transition-all
-              hover:after:w-full
-            "
-          >
-            Why Choose Us
-          </Link>
-
-          <Link
-            href="/mission"
-            className="
-              text-gray-300 hover:text-white transition relative
-              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
-              after:w-0 after:bg-accent after:transition-all
-              hover:after:w-full
-            "
-          >
-            Mission & Vision
-          </Link>
-
-          <Link
-            href="/blogs"
-            className="
-              text-gray-300 hover:text-white transition relative
-              after:absolute after:left-0 after:-bottom-1 after:h-[2px]
-              after:w-0 after:bg-accent after:transition-all
-              hover:after:w-full
-            "
-          >
-            Blogs
-          </Link>
+          {[
+            { name: "Proof of Work", link: "/certificates" },
+            { name: "Courses", link: "/courses" },
+            { name: "Why Choose Us", link: "/why-us" },
+            { name: "Mission & Vision", link: "/mission" },
+            { name: "Blogs", link: "/blogs" },
+          ].map((item, i) => (
+            <Link
+              key={i}
+              href={item.link}
+              className="
+                text-gray-600 hover:text-green-600 transition relative
+                after:absolute after:left-0 after:-bottom-1 after:h-[2px]
+                after:w-0 after:bg-green-600 after:transition-all
+                hover:after:w-full
+              "
+            >
+              {item.name}
+            </Link>
+          ))}
 
           {session ? (
             <>
@@ -111,9 +72,9 @@ export default function Navbar() {
                 href="/dashboard"
                 className="
                   px-5 py-2 rounded
-                  border border-accent/40
-                  text-white
-                  hover:bg-accent/10
+                  border border-green-600
+                  text-green-600
+                  hover:bg-green-50
                   transition
                 "
               >
@@ -125,9 +86,9 @@ export default function Navbar() {
                   href="/admin"
                   className="
                     px-5 py-2 rounded
-                    border border-red-500/40
-                    text-red-400
-                    hover:bg-red-500/10
+                    border border-red-400
+                    text-red-500
+                    hover:bg-red-50
                     transition
                   "
                 >
@@ -143,9 +104,9 @@ export default function Navbar() {
                 href="/auth/signin"
                 className="
                   px-5 py-2 rounded
-                  border border-white/20
-                  text-white
-                  hover:bg-white/5
+                  border border-gray-300
+                  text-gray-700
+                  hover:bg-gray-100
                   transition
                 "
               >
@@ -156,9 +117,9 @@ export default function Navbar() {
                 href="/auth/register"
                 className="
                   px-5 py-2 rounded
-                  border border-white/20
+                  bg-green-600
                   text-white
-                  hover:bg-white/5
+                  hover:bg-green-700
                   transition
                   font-semibold
                 "
@@ -169,8 +130,8 @@ export default function Navbar() {
           )}
         </nav>
 
-        {/* MOBILE MENU PLACEHOLDER */}
-        <div className="md:hidden text-white text-xl cursor-pointer">
+        {/* MOBILE MENU */}
+        <div className="md:hidden text-black text-xl cursor-pointer">
           ☰
         </div>
 
