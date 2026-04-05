@@ -23,71 +23,104 @@ export default function SignInPage() {
     } else {
       alert("Invalid email or password");
     }
-  } // ✅ THIS WAS MISSING
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0B0F14] px-4">
-      <div className="w-full max-w-md bg-[#121826] border border-gray-800 rounded-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+
+      <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="font-heading text-3xl font-bold text-white">
+          <h1 className="text-3xl font-bold text-black">
             Welcome Back
           </h1>
-          <p className="font-body text-gray-400 mt-2 text-sm">
+
+          <p className="text-gray-600 mt-2 text-sm">
             Login to continue your trading journey
           </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
+
           <div>
-            <label className="font-body text-sm text-gray-300">
+            <label className="text-sm text-gray-700">
               Email
             </label>
+
             <input
               name="email"
               type="email"
               required
-              className="mt-2 w-full rounded-xl bg-[#0B0F14] border border-gray-700 px-4 py-3 text-sm text-white outline-none focus:border-green-400 transition"
+              placeholder="you@example.com"
+              className="
+                mt-2 w-full rounded-xl 
+                bg-white border border-gray-300 
+                px-4 py-3 text-sm text-black 
+                outline-none 
+                focus:border-green-600 focus:ring-1 focus:ring-green-600
+                transition
+              "
             />
           </div>
 
           <div>
-            <label className="font-body text-sm text-gray-300">
+            <label className="text-sm text-gray-700">
               Password
             </label>
+
             <input
               name="password"
               type="password"
               required
-              className="mt-2 w-full rounded-xl bg-[#0B0F14] border border-gray-700 px-4 py-3 text-sm text-white outline-none focus:border-green-400 transition"
+              placeholder="••••••••"
+              className="
+                mt-2 w-full rounded-xl 
+                bg-white border border-gray-300 
+                px-4 py-3 text-sm text-black 
+                outline-none 
+                focus:border-green-600 focus:ring-1 focus:ring-green-600
+                transition
+              "
             />
           </div>
 
+          {/* Forgot Password */}
           <Link
             href="/auth/forget-password"
-            className="text-sm text-blue-400 hover:underline text-right block"
+            className="text-sm text-green-600 hover:underline text-right block"
           >
             Forgot password?
           </Link>
 
+          {/* Button */}
           <button
             type="submit"
-            className="w-full font-heading bg-green-500 hover:bg-green-400 text-black py-3 rounded-xl text-sm uppercase tracking-wide transition"
+            className="
+              w-full 
+              bg-green-600 hover:bg-green-700 
+              text-white py-3 rounded-xl 
+              text-sm uppercase tracking-wide 
+              font-semibold transition
+            "
           >
             Login
           </button>
+
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-400 font-body">
+        {/* Footer */}
+        <div className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
           <Link
             href="/auth/register"
-            className="text-green-400 hover:underline"
+            className="text-green-600 hover:underline font-medium"
           >
             Sign up
           </Link>
         </div>
+
       </div>
     </div>
   );
