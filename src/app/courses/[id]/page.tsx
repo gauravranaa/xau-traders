@@ -24,78 +24,47 @@ export default async function CourseDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-white text-black py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-white text-black px-6 py-20">
+      <div className="max-w-3xl mx-auto">
 
-        {/* ===== HEADER ===== */}
-        <div className="mb-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        {/* HEADER */}
+        <div className="mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold">
             {course.title}
           </h1>
 
-          <p className="text-green-600 text-2xl font-semibold">
+          <p className="text-green-600 text-xl font-semibold mt-2">
             {course.price}
           </p>
 
-          <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="mt-4 text-gray-600 leading-relaxed">
             {course.description}
           </p>
         </div>
 
-        {/* ===== WHAT YOU WILL LEARN ===== */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-10 shadow-sm mb-20">
-          <h2 className="text-2xl font-bold mb-8 text-green-600">
-            What You Will Learn
+        {/* WHAT YOU WILL LEARN */}
+        <div className="mb-16">
+          <h2 className="text-lg font-semibold mb-4 text-gray-800">
+            What you’ll learn
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-6 text-lg text-gray-700">
-            <p>✔ Market Structure & Price Action</p>
-            <p>✔ Smart Money Concepts</p>
-            <p>✔ Liquidity & Institutional Traps</p>
-            <p>✔ Risk Management Framework</p>
-            <p>✔ Trading Psychology Mastery</p>
-            <p>✔ Real Trade Case Studies</p>
-          </div>
+          <ul className="space-y-2 text-gray-600 text-sm">
+            <li>• Market Structure & Price Action</li>
+            <li>• Smart Money Concepts</li>
+            <li>• Liquidity & Institutional Traps</li>
+            <li>• Risk Management Framework</li>
+            <li>• Trading Psychology</li>
+            <li>• Real Trade Case Studies</li>
+          </ul>
         </div>
 
-        {/* ===== ENROLL SECTION ===== */}
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-10 shadow-sm">
-          
-          <h3 className="text-2xl font-bold mb-6 text-center">
-            Enroll in This Program
-          </h3>
-
-          {/* TRUST LINE */}
-          <p className="text-center text-gray-600 mb-10">
-            Limited seats • Structured mentorship • Real trading system
+        {/* ENROLL */}
+        <div className="border border-gray-200 rounded-xl p-6">
+          <p className="text-sm text-gray-500 mb-4">
+            Limited seats • Structured mentorship
           </p>
 
           <EnrollForm courseType={course.type} />
-        </div>
-
-        {/* ===== FINAL CTA (CONVERSION BOOST) ===== */}
-        <div className="mt-20 text-center">
-          <h3 className="text-xl font-semibold mb-4">
-            Not Ready Yet?
-          </h3>
-
-          <p className="text-gray-600 mb-6">
-            Start with free resources and build your foundation first.
-          </p>
-
-          <a
-            href="/resources"
-            className="
-              inline-block 
-              border border-green-600 
-              text-green-600 
-              px-6 py-3 rounded-lg 
-              font-semibold hover:bg-green-50 
-              transition
-            "
-          >
-            Start Learning Free →
-          </a>
         </div>
 
       </div>
