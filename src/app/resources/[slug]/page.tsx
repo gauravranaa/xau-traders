@@ -165,51 +165,43 @@ You lose because:
 export default async function ResourceDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>; // ✅ IMPORTANT FIX
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params; // ✅ MUST await
+  const { slug } = await params;
 
   const resource = resources[slug];
 
   if (!resource) return notFound();
 
   return (
-    <div className="min-h-screen bg-[#0B1C2D] text-white px-6 py-28">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-white text-black px-6 py-20">
+      <div className="max-w-2xl mx-auto">
 
         {/* BACK */}
         <Link
           href="/resources"
-          className="text-sm text-gray-400 hover:text-white mb-6 inline-block"
+          className="text-sm text-gray-500 hover:underline mb-6 inline-block"
         >
-          ← Back to Resources
+          ← Back
         </Link>
 
         {/* TITLE */}
-        <h1 className="text-4xl font-bold mb-6 leading-tight">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6">
           {resource.title}
         </h1>
 
         {/* CONTENT */}
-        <div className="text-gray-300 leading-relaxed text-lg space-y-5 whitespace-pre-line">
+        <div className="text-gray-700 leading-relaxed whitespace-pre-line space-y-4">
           {resource.content}
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-semibold mb-4">
-            Ready to Trade Like a Professional?
-          </h3>
-
-          <p className="text-gray-400 mb-6">
-            Learn structured trading with real mentorship and systems.
-          </p>
-
+        <div className="mt-16">
           <Link
             href="/courses"
-            className="inline-block bg-[#C6A75E] text-black px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition"
+            className="text-green-600 font-semibold hover:underline"
           >
-            Upgrade to Full Program 🚀
+            Explore Courses →
           </Link>
         </div>
 
