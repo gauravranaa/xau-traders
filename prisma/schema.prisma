@@ -67,12 +67,7 @@ model Video {
   videoProgresses VideoProgress[]
 }
 
-model PasswordResetToken {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String
-  token     String   @unique
-  expiresAt DateTime
-}
+
 
 model CourseEnrollment {
   id String @id @default(auto()) @map("_id") @db.ObjectId
