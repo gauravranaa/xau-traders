@@ -4,18 +4,21 @@ import { useState, useEffect } from "react";
 
 export default function ContactPopup() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     const alreadyShown = localStorage.getItem("popupShown");
     if (alreadyShown) return;
 
-    // ⏳ 5 sec delay
     const timer = setTimeout(() => {
       setOpen(true);
       localStorage.setItem("popupShown", "true");
     }, 5000);
 
-    // 📜 scroll trigger
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setOpen(true);
@@ -31,6 +34,47 @@ export default function ContactPopup() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // 🚀 SUBMIT HANDLER (IMPORTANT)
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          type: "general",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Application submitted successfully 🚀");
+        setOpen(false);
+
+        // reset fields
+        setName("");
+        setEmail("");
+        setPhone("");
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server error");
+    }
+
+    setLoading(false);
+  }
 
   return (
     <>
@@ -71,7 +115,6 @@ export default function ContactPopup() {
               ✕
             </button>
 
-            {/* HEADING */}
             <h2 className="text-2xl font-bold mb-2 text-black">
               Start Your Trading Journey
             </h2>
@@ -80,67 +123,50 @@ export default function ContactPopup() {
               Get direct guidance from professional traders.
             </p>
 
-            {/* SCARCITY */}
             <p className="text-red-500 text-xs mb-4 font-medium">
               ⚠ Limited seats available this month
             </p>
 
-            {/* FORM */}
-            <form className="space-y-4">
+            {/* ✅ FORM CONNECTED */}
+            <form onSubmit={handleSubmit} className="space-y-4">
 
               <input
                 type="text"
                 placeholder="Full Name"
                 required
-                className="
-                  w-full px-4 py-3 rounded-lg 
-                  bg-white border border-gray-300 
-                  text-black outline-none 
-                  focus:border-green-600 focus:ring-1 focus:ring-green-600
-                "
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 text-black focus:border-green-600 outline-none"
               />
 
               <input
                 type="email"
                 placeholder="Email Address"
                 required
-                className="
-                  w-full px-4 py-3 rounded-lg 
-                  bg-white border border-gray-300 
-                  text-black outline-none 
-                  focus:border-green-600 focus:ring-1 focus:ring-green-600
-                "
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 text-black focus:border-green-600 outline-none"
               />
 
               <input
                 type="tel"
                 placeholder="Phone Number"
                 required
-                className="
-                  w-full px-4 py-3 rounded-lg 
-                  bg-white border border-gray-300 
-                  text-black outline-none 
-                  focus:border-green-600 focus:ring-1 focus:ring-green-600
-                "
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 text-black focus:border-green-600 outline-none"
               />
 
               <button
                 type="submit"
-                className="
-                  w-full 
-                  bg-green-600 text-white 
-                  py-3 rounded-lg 
-                  font-semibold 
-                  hover:bg-green-700 
-                  transition
-                "
+                disabled={loading}
+                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
               >
-                Apply Now
+                {loading ? "Submitting..." : "Apply Now"}
               </button>
 
             </form>
 
-            {/* WHATSAPP */}
             <a
               href="https://wa.me/91XXXXXXXXXX"
               target="_blank"
@@ -149,7 +175,6 @@ export default function ContactPopup() {
               Or Chat on WhatsApp
             </a>
 
-            {/* TRUST */}
             <p className="text-xs text-gray-500 mt-4 text-center">
               We respect your privacy. No spam.
             </p>

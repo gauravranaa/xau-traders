@@ -38,13 +38,13 @@ export default function Footer() {
         <div>
           <h4 className="text-white font-semibold mb-4">Community</h4>
           <div className="flex gap-4 text-gray-400 text-sm">
-            <a href="https://instagram.com" target="_blank" className="hover:text-white">
+            <a href="https://www.instagram.com/xautraders_?igsh=MWpvMTI2czBuejE5ZA==" target="_blank" className="hover:text-white">
               Instagram
             </a>
-            <a href="https://twitter.com" target="_blank" className="hover:text-white">
-              X
+            <a href="https://www.youtube.com/@XAUTRADERS-OFFICIAL" target="_blank" className="hover:text-white">
+              YouTube
             </a>
-            <a href="https://t.me" target="_blank" className="hover:text-white">
+            <a href="https://t.me/+1s6V6UoD3cgwYmVl" target="_blank" className="hover:text-white">
               Telegram
             </a>
           </div>

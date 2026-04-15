@@ -3,19 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData();
+    const body = await req.json();
 
-    const name = (formData.get("name") as string)?.trim();
-    const email = (formData.get("email") as string)?.trim();
-    const phone = (formData.get("phone") as string)?.trim();
-    const courseId = (formData.get("courseId") as string)?.trim();
-    const type = (formData.get("type") as string)?.trim(); // online | offline
+    const name = body.name?.trim();
+    const email = body.email?.trim();
+    const phone = body.phone?.trim();
+    const courseId = body.courseId?.trim();
+    const type = body.type?.trim(); // online | offline | general
 
     // =============================
     // VALIDATIONS
     // =============================
 
-    if (!name || !email || !phone || !courseId || !type) {
+    if (!name || !email || !phone) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -49,32 +49,28 @@ export async function POST(req: Request) {
       );
     }
 
-    // Type validation (online/offline)
-    if (!["online", "offline"].includes(type.toLowerCase())) {
-      return NextResponse.json(
-        { error: "Invalid batch type" },
-        { status: 400 }
-      );
-    }
-
     // =============================
-    // SAVE TO DATABASE
+    // SAVE TO LEADS TABLE ✅
     // =============================
 
-    await prisma.enrollmentRequest.create({
+    await prisma.lead.create({
       data: {
         name,
         email,
         phone,
-        courseId,
-        status: "pending",
+        courseId: courseId || null,
+        type: type || "general",
       },
     });
 
-    return NextResponse.redirect(new URL("/thank-you", req.url));
+    return NextResponse.json({
+      success: true,
+      message: "Lead captured successfully",
+    });
 
   } catch (error) {
-    console.error("ENROLLMENT REQUEST ERROR:", error);
+    console.error("LEAD API ERROR:", error);
+
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
